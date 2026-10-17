@@ -8,7 +8,7 @@ namespace UFO_50_Mod_Loader.Models
         public static GamePaths? Paths { get; private set; }
         
         // Metadata JSON Properties
-        public string GameName { get; init; } = "UFO 50"; // Change to name of selected game metadata folder if this becomes a generic game maker program
+        public string GameName { get; init; } = "Minit"; // Change to name of selected game metadata folder if this becomes a generic game maker program
         public string InstallFolderName { get; init; } = string.Empty;
         public string ExeName { get; init; } = string.Empty;
         public string SteamAppID { get; init; } = string.Empty;
@@ -18,7 +18,7 @@ namespace UFO_50_Mod_Loader.Models
 
         public static bool Load()
         {
-            string gameName = "UFO 50"; // Change to name of selected game metadata folder if this becomes a generic game maker program
+            string gameName = "Minit"; // Change to name of selected game metadata folder if this becomes a generic game maker program
             string metadataPath = Path.Combine(Constants.ModLoaderPath, "Games", gameName, "metadata.json");
 
             if (!File.Exists(metadataPath)) {
