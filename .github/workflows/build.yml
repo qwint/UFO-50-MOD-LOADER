@@ -1,0 +1,39 @@
+name: build
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Set env
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+      - uses: actions/checkout@v6.0.2
+
+      - name: setup
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: 10.0.112  #og: 2.2.108
+
+      - name: build linux
+        run: |
+          dotnet publish "UFO 50 Mod Loader\UFO 50 Mod Loader.csproj" -c Release -r linux-x64 -o "publish\linux-x64"
+          dotnet publish "UFO 50 Mod Loader\UFO 50 Mod Loader.csproj" -c Release -r win-x64 -o "publish\win-x64"
+          (cd publish/linux-x64 && zip -r - .)>dist/minit_modloader_linux.zip
+          (cd publish/win-x64 && zip -r - .)>dist/minit_modloader_win.zip
+
+      - name: Add to Release
+        uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda  # v3.0.0
+        with:
+          draft: true  # don't publish right away
+          prerelease: false
+          name: Minit Mod Manager ${{ env.RELEASE_VERSION }}
+          files: |
+            dist/*
+          fail_on_unmatched_files: true
+          overwrite_files: false  # should never happen; avoids accidentally changing a release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
