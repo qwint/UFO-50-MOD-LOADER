@@ -22,6 +22,7 @@ jobs:
 
       - name: build linux
         run: |
+          touch dist/foobar
           dotnet publish "UFO 50 Mod Loader\UFO 50 Mod Loader.csproj" -c Release -r linux-x64 -o "publish\linux-x64"
           dotnet publish "UFO 50 Mod Loader\UFO 50 Mod Loader.csproj" -c Release -r win-x64 -o "publish\win-x64"
           (cd publish/linux-x64 && zip -r - .)>dist/minit_modloader_linux.zip
