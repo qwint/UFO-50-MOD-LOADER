@@ -2,6 +2,9 @@ name: build
 
 on: [push]
 
+permissions:
+  contents: write
+
 jobs:
   build:
 
@@ -22,12 +25,10 @@ jobs:
       - name: build linux
         run: |
           mkdir dist
-          touch dist/foobar
           dotnet publish "UFO 50 Mod Loader\UFO 50 Mod Loader.csproj" -c Release -r linux-x64 -o "publish\linux-x64"
           dotnet publish "UFO 50 Mod Loader\UFO 50 Mod Loader.csproj" -c Release -r win-x64 -o "publish\win-x64"
           (cd publish/linux-x64 && zip -r - .)>dist/minit_modloader_linux.zip
           (cd publish/win-x64 && zip -r - .)>dist/minit_modloader_win.zip
-          ls dist
 
       - name: Add to Release
         uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda  # v3.0.0
